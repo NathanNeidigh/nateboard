@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_TRNS,  KC_BRIU,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_VOLU,
        KC_TRNS,  KC_BRID,  KC_MRWD,  KC_MPLY,  KC_MFFD,  KC_VOLD,
        KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_MSTP,  KC_TRNS,  KC_MUTE,
-       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_LEFT,  KC_RGHT,
+                 KC_TRNS,  KC_TRNS,  KC_LEFT,  KC_RGHT,
                                                          KC_TRNS,  KC_TRNS,
                                                                    KC_TRNS,
                                                KC_TRNS,  KC_TRNS,  KC_TRNS,
@@ -83,11 +83,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_F7,    KC_P7,    KC_P8,    KC_P9,  KC_PMNS,   KC_F12,
                    KC_F8,    KC_P4,    KC_P5,    KC_P6,  KC_PLUS,  KC_TRNS,
                    KC_F9,    KC_P1,    KC_P2,    KC_P3,  KC_PENT,  KC_TRNS,
-                             KC_UP,  KC_DOWN,   KC_DOT,  KC_PENT,  KC_TRNS,
+                             KC_UP,  KC_DOWN,   KC_DOT,  KC_PENT,  
       KC_TRNS,  KC_TRNS,
       KC_TRNS,
       KC_TRNS,  KC_PENT,  KC_P0
-)
+),
+};
 
 uint8_t mod_state;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
