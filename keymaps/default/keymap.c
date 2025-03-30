@@ -1,13 +1,7 @@
 #include QMK_KEYBOARD_H
-#include "version.h"
 
 #define BASE 0 // default layer
 #define MDIA_NUMP 1 // media and numpad layer
-
-enum custom_keycodes {
-  PLACEHOLDER = SAFE_RANGE, // ensure these codes start after the highest keycode defined in Quantum
-  VRSN,
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
@@ -30,27 +24,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                               | Back | Del  |------|  |------| Enter|Space |
  *                               | space|      | Esc  |  | PgDn |      |      |
  *                               '--------------------'  '--------------------'
- *
- * Keymap 0: Shift Layer
- *
- * ,-----------------------------------------.                    ,-----------------------------------------.
- * |   +  |   !  |   @  |   #  |   $  |   %  |                    |   ^  |   &  |   *  |   <  |   >  |  -   |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Tab  |  ""  |   (  |   )  |   P  |   Y  |                    |   F  |   G  |   C  |   R  |   L  |  ?   |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | CapL |   A  |   O  |   E  |   U  |   I  |                    |   D  |   H  |   T  |   N  |   S  |  |   |
- * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LShift|   :  |   Q  |   J  |   K  |   X  |                    |   B  |   M  |   W  |   V  |   Z  |RShift|
- * '------+------+------+------+------+------'                    `------+------+------+------+------+------'
- *        |   ~  |  NA  | Left | Right|                                  |  Up  | Down |   {  |   }  |
- *        '---------------------------'                                  `---------------------------'
- *                                      ,-------------.  ,-------------.
- *                                      | LCtr | LAlt |  | RAlt | RCtr |
- *                               ,------|------|------|  |------+------+------.
- *                               |      |      | LGui |  | PgUp |      |      |
- *                               | Back | Del  |------|  |------| Enter|Space |
- *                               | space|      | Esc  |  | PgDn |      |      |
- *                               `--------------------'  `--------------------'
  *
  */
 [BASE] = LAYOUT(  // layer 0 : default
@@ -116,14 +89,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TRNS,  KC_PENT,  KC_P0
 )
 
+uint8_t mod_state;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case VRSN:
-      if (record->event.pressed) {
-        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+  mod_state = get_mods();
+  
+  switch (keycode)
+  {
+    case KC_LBRC:
+    {
+      if (record->event.pressed)
+      {
+	if (mod_state & MOD_MASK_ALT)
+       	{
+	  unregister_code(KC_LBRC);
+	  del_mods(MOD_MASK_ALT);
+	  set_mods(MOD_MASK_SHIFT);
+	  register_code(KC_9);
+	  del_mods(MOD_MASK_SHIFT);
+	  set_mods(mod_state);
+	  unregister_code(KC_9);
+	  return false;
+	}
       }
-      return false;
-      break;
+    }
+    case KC_RBRC:
+    {
+      if (record->event.pressed)
+      {
+        if (mod_state & MOD_MASK_ALT)
+	{
+	  unregister_code(KC_RBRC);
+	  del_mods(MOD_MASK_ALT);
+	  set_mods(MOD_MASK_SHIFT);
+	  register_code(KC_0);
+	  del_mods(MOD_MASK_SHIFT);
+	  set_mods(mod_state);
+	  unregister_code(KC_0);
+	  return false;
+	}
+      }
+    }  
   }
+
   return true;
 }
