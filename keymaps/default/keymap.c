@@ -90,47 +90,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
-uint8_t mod_state;
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  mod_state = get_mods();
-  
-  switch (keycode)
-  {
-    case KC_LBRC:
-    {
-      if (record->event.pressed)
-      {
-	if (mod_state & MOD_MASK_ALT)
-       	{
-	  unregister_code(KC_LBRC);
-	  del_mods(MOD_MASK_ALT);
-	  set_mods(MOD_MASK_SHIFT);
-	  register_code(KC_9);
-	  del_mods(MOD_MASK_SHIFT);
-	  set_mods(mod_state);
-	  unregister_code(KC_9);
-	  return false;
-	}
-      }
-    }
-    case KC_RBRC:
-    {
-      if (record->event.pressed)
-      {
-        if (mod_state & MOD_MASK_ALT)
-	{
-	  unregister_code(KC_RBRC);
-	  del_mods(MOD_MASK_ALT);
-	  set_mods(MOD_MASK_SHIFT);
-	  register_code(KC_0);
-	  del_mods(MOD_MASK_SHIFT);
-	  set_mods(mod_state);
-	  unregister_code(KC_0);
-	  return false;
-	}
-      }
-    }  
-  }
+const key_override_t left_parenthesis_override = ko_make_basic(MOD_MASK_ALT, KC_LBRC, LSFT(KC_9));
+const key_override_t right_parenthesis_override = ko_make_basic(MOD_MASK_ALT, KC_RBRC, LSFT(KC_0));
 
-  return true;
-}
+const key_override_t *key_overrides[] = {
+	&left_parenthesis_override,
+	&right_parenthesis_override
+};
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) { return true; } 
+	
